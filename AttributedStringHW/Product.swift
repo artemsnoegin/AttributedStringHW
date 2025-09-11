@@ -8,9 +8,13 @@
 import UIKit
 
 struct Product {
-    let text: String
+    
+    let name: String
+    let description: String
     let imageString: String
     let urlString: String
     let keyWords: [String]
     let keyWordColor: UIColor
+    let preferredUserInterfaceStyle: UIUserInterfaceStyle
+    
 }
