@@ -8,61 +8,69 @@
 import UIKit
 
 class AttributedTextConfigurator {
-    
+
     func configureAttributedText(for product: Product) -> NSMutableAttributedString {
         let fontSize: CGFloat = 20
-        
+
         let centeredStyle = NSMutableParagraphStyle()
         centeredStyle.lineSpacing = 8
         centeredStyle.alignment = .center
-        
+
         let justifiedStyle = NSMutableParagraphStyle()
         justifiedStyle.paragraphSpacingBefore = 12
         justifiedStyle.paragraphSpacing = 12
         justifiedStyle.alignment = .justified
-        
-        let paragraphs = product.description.components(separatedBy: "\n")
-        let firstParagraph = paragraphs[1]
-        
-        let attributedText = NSMutableAttributedString(string: product.description, attributes: [
+
+        let attributedText = NSMutableAttributedString()
+
+        if let image = UIImage(named: product.imageString) {
+            let attachment = NSTextAttachment(image: image)
+            let imageString = NSMutableAttributedString(attachment: attachment)
+            imageString.addAttribute(.paragraphStyle, value: centeredStyle, range: NSRange(location: 0, length: imageString.length))
+            imageString.append(NSAttributedString(string: "\n"))
+            attributedText.append(imageString)
+        }
+
+        let text = NSMutableAttributedString(string: product.description, attributes: [
             .font: UIFont.systemFont(ofSize: fontSize, weight: .light),
             .paragraphStyle: centeredStyle,
             .foregroundColor: UIColor.secondaryLabel
         ])
         
-        let nsString = NSString(string: product.description)
+        let paragraphs = product.description.components(separatedBy: "\n")
+        let firstParagraph = paragraphs[0]
 
-        attributedText.addAttribute(.paragraphStyle, value: justifiedStyle, range: nsString.range(of: firstParagraph))
-        attributedText.addAttribute(.foregroundColor, value: UIColor.label, range: nsString.range(of: firstParagraph))
-        attributedText.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: fontSize), range: nsString.range(of: firstParagraph))
+        let nsString = text.string as NSString
         
+        text.addAttribute(.paragraphStyle, value: justifiedStyle, range: nsString.range(of: firstParagraph))
+        text.addAttribute(.foregroundColor, value: UIColor.label, range: nsString.range(of: firstParagraph))
+        text.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: fontSize), range: nsString.range(of: firstParagraph))
+
         if let customFont = UIFont(name: "TimelessMemories-Regular", size: fontSize) {
             let sentences = product.description.components(separatedBy: ".")
             let firstSentence = sentences[0]
-            attributedText.addAttribute(.font, value: customFont, range: nsString.range(of: firstSentence))
+            text.addAttribute(.font, value: customFont, range: nsString.range(of: firstSentence))
         }
-        
+
         for key in product.keyWords {
-            attributedText.addAttribute(.foregroundColor, value: product.keyWordColor, range: nsString.range(of: key))
+            let range = nsString.range(of: key)
+            if range.location != NSNotFound {
+                text.addAttribute(.foregroundColor, value: product.keyWordColor, range: range)
+            }
         }
 
         if let url = URL(string: product.urlString) {
-            let linkAttributes: [NSAttributedString.Key : Any] = [
-                .font: UIFont.systemFont(ofSize: fontSize),
-                .underlineStyle: NSUnderlineStyle.single.rawValue,
-                .link: url
-            ]
-            
-            attributedText.addAttributes(linkAttributes, range: nsString.range(of: "Pre-order"))
+            let linkRange = nsString.range(of: "Pre-order")
+            if linkRange.location != NSNotFound {
+                text.addAttributes([
+                    .link: url,
+                    .underlineStyle: NSUnderlineStyle.single.rawValue,
+                    .font: UIFont.systemFont(ofSize: fontSize)
+                ], range: linkRange)
+            }
         }
-        
-        if let image = UIImage(named: product.imageString) {
-            let imageAttachment = NSTextAttachment(image: image)
-            let imageString = NSMutableAttributedString(attachment: imageAttachment)
-            imageString.addAttribute(.paragraphStyle, value: centeredStyle, range: NSRange(location: 0, length: imageString.length))
-            
-            attributedText.insert(imageString, at: 0)
-        }
+
+        attributedText.append(text)
         
         return attributedText
     }
