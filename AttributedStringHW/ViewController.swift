@@ -29,8 +29,8 @@ class ViewController: UIViewController {
         titleLabel.textAlignment = .center
         titleLabel.font = .preferredFont(forTextStyle: .headline)
         
-        data.products.forEach {
-            control.insertSegment(withTitle: $0.name, at: 0, animated: true)
+        data.products.enumerated().forEach {
+            control.insertSegment(withTitle: $1.name, at: $0, animated: true)
         }
         
         control.addTarget(self, action: #selector(switchControl(_:)), for: .valueChanged)
