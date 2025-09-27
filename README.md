@@ -10,8 +10,8 @@
 Текст собирается через NSAttributedString с нужными атрибутами, а кнопки и элементы управления обновляют содержимое и позволяют пользователю менять параметры текста.
 
 ## Скриншоты
-<img src="docs/AtributedStringHW_Screenshot_1_-_iPhone_16_Pro" height="400" alt="Скриншот решения1">
+<img src="docs/AtributedStringHW_Screenshot1.png" height="400" alt="Скриншот решения1">
 
-<img src="docs/AtributedStringHW_Screenshot_2_-_iPhone_16_Pro" height="400" alt="Скриншот решения2">
+<img src="docs/AtributedStringHW_Screenshot2.png" height="400" alt="Скриншот решения2">
 
-<img src="docs/AtributedStringHW_Screenshot_3_-_iPhone_16_Pro" height="400" alt="Скриншот решения3">
+<img src="docs/AtributedStringHW_Screenshot3.png" height="400" alt="Скриншот решения3">
