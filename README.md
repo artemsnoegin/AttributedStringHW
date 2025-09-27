@@ -10,7 +10,7 @@
 Текст собирается через NSAttributedString с нужными атрибутами, а кнопки и элементы управления обновляют содержимое и позволяют пользователю менять параметры текста.
 
 ## Скриншоты
-<table style="border-spacing: 10px; border-collapse: collapse; border: none;">
+<table>
   <tr>
     <td style="border: none;"><img src="docs/AtributedStringHW_Screenshot1.png" height="400" alt="Скриншот решения1"></td>
     <td style="border: none;"><img src="docs/AtributedStringHW_Screenshot2.png" height="400" alt="Скриншот решения2"></td>
